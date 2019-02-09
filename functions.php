@@ -289,4 +289,18 @@ function cf7_deregister_javascript() {
         wp_deregister_script( 'contact-form-7' );
     }
 }
+
+function my_text_strings( $translated_text, $text, $domain ) {
+ switch ( $translated_text ) {
+ case 'Código de clasificación' :
+ $translated_text = __( 'CBU', 'woocommerce' );
+ break;
+
+ case 'Finalizar compra' :
+ $translated_text = __( 'Pasar por caja', 'woocommerce' );
+ break;
+ }
+ return $translated_text;
+}
+add_filter( 'gettext', 'my_text_strings', 20, 3 );
 ?>
