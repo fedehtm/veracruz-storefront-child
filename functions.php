@@ -134,6 +134,28 @@ if(is_page('tienda')) {  ?>
 <?php  }
 };
 
+add_action('wp_head', 'schema_post');
+function schema_post(){
+if (is_singular('post')) {  ?>
+	<script type="application/ld+json"> { 
+		"@context": "http://schema.org", 
+		 "@type": "BlogPosting",
+		 "headline": "<?php echo get_the_title(); ?>",
+		 "image": "<?php echo get_the_post_thumbnail_url(); ?>",
+		 "genre": "Elaboración de cerveza artesanal", 
+		 "url": "<?php echo get_permalink(); ?>",
+		 "publisher": "Vera Cruz",
+		 "datePublished": "<?php echo get_the_date(); ?>",
+		 "articleBody": "<?php echo strip_tags(get_the_content()); ?>",
+		 "author": {
+			"@type": "Person",
+			"name": "<?php echo get_the_author_meta('display_name', $author_id); ?>"
+		  	}
+	}
+	</script>
+<?php  }
+};
+
 add_action('wp_head', 'schema_product');
 function schema_product(){
 global $product;
