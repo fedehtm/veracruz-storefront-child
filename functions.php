@@ -521,4 +521,50 @@ function remove_country_checkout_field($fields) {
 add_filter('woocommerce_checkout_fields', 'remove_country_checkout_field');
 
 add_filter( 'woocommerce_enable_order_notes_field', '__return_false' );
+
+add_filter( 'woocommerce_checkout_fields', 'remove_billing_checkout_fields' );
+function remove_billing_checkout_fields( $fields ) {
+    // change below for the method
+    $shipping_method = 'local_pickup:18'; 
+    // change below for the list of fields
+    $hide_fields = array('billing_address_1', 'billing_last_name', 'billing_city', 'billing_state', 'billing_postcode', 'billing_country', 'billing_phone');
+
+    $chosen_methods = WC()->session->get( 'chosen_shipping_methods' );
+    $chosen_shipping = $chosen_methods[0];
+
+    foreach($hide_fields as $field ) {
+        if ($chosen_shipping == $shipping_method) {
+            $fields['billing'][$field]['required'] = false;
+            $fields['billing'][$field]['class'][] = 'hide';
+        }
+        $fields['billing'][$field]['class'][] = 'billing-dynamic';
+    }
+
+    return $fields;
+}
+
+add_action( 'wp_footer', 'cart_update_script', 999 );
+function cart_update_script() {
+    if (is_checkout()) :
+    ?>
+    <style>
+        .hide {display: none!important;}
+    </style>
+    <script>
+        jQuery( function( $ ) {
+
+            // woocommerce_params is required to continue, ensure the object exists
+            if ( typeof woocommerce_params === 'undefined' ) {
+                return false;
+            }
+
+            $(document).on( 'change', '#shipping_method input[type="radio"]', function() {
+                // change local_pickup:1 accordingly 
+                $('.billing-dynamic').toggleClass('hide', this.value == 'local_pickup:18');
+            });
+        });
+    </script>
+    <?php
+    endif;
+}
 ?>
