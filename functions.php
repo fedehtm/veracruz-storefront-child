@@ -519,4 +519,6 @@ function remove_country_checkout_field($fields) {
 	return $fields;
 }
 add_filter('woocommerce_checkout_fields', 'remove_country_checkout_field');
+
+add_filter( 'woocommerce_enable_order_notes_field', '__return_false' );
 ?>
