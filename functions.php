@@ -76,4 +76,21 @@ if(is_front_page()) {  ?>
 	</script>
 <?php  }
 };
+
+add_action('wp_head', 'schema_blog');
+function schema_blog(){
+if(is_page('blog')) {  ?>
+	<script type="application/ld+json">
+	{
+	  "@context": "http://schema.org",
+	  "@type": "Blog",
+	  "name": "Vera Cruz Insumos Cerveceros",
+	  "description": "Venta y provisión de materias primas e insumos para cerveceros.",
+	  "logo": "https://www.veracruzinsumos.com.ar/wp-content/uploads/Icono-PNG-96-DPI-512x512-px-1.png",
+	  "image": "https://www.veracruzinsumos.com.ar/wp-content/uploads/Logo-Verde-500x500px-96ppp.jpg",
+	  "url": "https://www.veracruzinsumos.com.ar/"
+	}
+	</script>
+<?php  }
+};
 ?>
