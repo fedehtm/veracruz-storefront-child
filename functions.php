@@ -176,6 +176,48 @@ if (is_singular('product')) {  ?>
 <?php  }
 };
 
+add_filter( 'get_product_search_form' , 'me_custom_product_searchform' );
+function me_custom_product_searchform() {
+echo do_shortcode('[yith_woocommerce_ajax_search]');
+}
+
+add_action('wp_head', 'css_yith_search_box');
+function css_yith_search_box(){
+  ?>
+		<style>
+		#yith-s {
+	  		background-color: white; 
+		}
+
+		.autocomplete-suggestions {
+			color: black;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			background: #fff;
+			border: 1px solid #ccc;
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			position: relative;
+		}
+		.autocomplete-suggestion {
+			background: #fff;
+			padding-left: 15px;
+			cursor: pointer;
+			text-align: left;
+			line-height: 25px;
+			font-size: 12px;
+		}
+
+		.autocomplete-suggestion:hover {
+			background-color: #efefef;
+		}
+		</style>
+<?php 
+};
+
 add_action('init','delay_remove');
 function delay_remove() {
 remove_action( 'woocommerce_after_shop_loop', 'woocommerce_catalog_ordering', 10 );
