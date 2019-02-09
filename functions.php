@@ -31,4 +31,5 @@ function remove_homepage_sections_storefront() {
     remove_action( 'homepage', 'storefront_best_selling_products', 70 );
 }
 
+//
 ?>
