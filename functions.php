@@ -475,4 +475,20 @@ if(is_page('contacto')) {  ?>
 		</style>
 <?php }
 };
+
+add_action('wp_head', 'css_inicio');
+function css_inicio(){
+if(is_front_page()) {  ?>
+		<style>
+			.entry-title {
+				display: none;
+			}
+			
+			.entry-content {
+				display: none;
+			}
+						 
+		</style>
+<?php }
+};
 ?>
