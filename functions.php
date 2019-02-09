@@ -200,4 +200,11 @@ function quitar_intervalo( $price, $product ) {
 }
 add_filter( 'woocommerce_variable_sale_price_html', 'quitar_intervalo', 10, 2 );
 add_filter( 'woocommerce_variable_price_html', 'quitar_intervalo', 10, 2 );
+
+// Category Products
+function custom_storefront_category( $args ) {
+	$args['number'] = 10;
+	return $args;
+}
+add_filter('storefront_product_categories_shortcode_args','custom_storefront_category' );
 ?>
