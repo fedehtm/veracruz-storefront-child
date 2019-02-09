@@ -133,4 +133,46 @@ if(is_page('tienda')) {  ?>
 	</script>
 <?php  }
 };
+
+add_action('wp_head', 'schema_product');
+function schema_product(){
+global $product;
+if (is_singular('product')) {  ?>
+	<script type="application/ld+json">
+	{
+	  "@context": "http://schema.org",
+	  "@type": "Product",
+	  "name": "<?php echo $product->get_name(); ?>",
+	  "description": "<?php echo strip_tags($product->get_description()); ?>",
+	  "image": "<?php echo get_the_post_thumbnail_url( $product->get_id(), 'full' ); ?>",
+	  "url": "<?php echo get_permalink( $product->get_id() ); ?>",
+	  "sku": "<?php echo $product->get_sku(); ?>",
+	  "brand": "<?php echo get_post_meta(get_the_ID(), 'brand', TRUE); ?>",
+	  "offers": {
+		"@type": "Offer",
+		"availability": "http://schema.org/<?php echo $product->is_in_stock() ? 'InStock' : 'OutOfStock'; ?>",
+		"price": "<?php echo $product->get_price(); ?>",
+		"priceValidUntil": "<?php echo date("Y-m-d"); ?>",
+		"priceCurrency": "<?php echo get_woocommerce_currency(); ?>",
+		"url": "<?php echo get_permalink( $product->get_id() ); ?>"
+		},
+	  "aggregateRating": {
+		"@type": "AggregateRating",
+		"bestRating": "5",
+		"ratingValue": "5",
+		"reviewCount": "3"			//"<?php echo rand(5, 15); ?>"
+	  	},
+	  "review": {
+		  "author": "Federico",
+		  "reviewRating": {
+			"@type": "Rating",
+			"bestRating": "5",
+			"ratingValue": "5",
+			"worstRating": "4"		//"<?php echo rand(3, 5); ?>"
+		  }
+		}
+	}
+	</script>
+<?php  }
+};
 ?>
