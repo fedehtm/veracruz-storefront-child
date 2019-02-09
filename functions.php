@@ -134,6 +134,28 @@ if(is_page('tienda')) {  ?>
 <?php  }
 };
 
+add_action('wp_head', 'schema_post');
+function schema_post(){
+if (is_singular('post')) {  ?>
+	<script type="application/ld+json"> { 
+		"@context": "http://schema.org", 
+		 "@type": "BlogPosting",
+		 "headline": "<?php echo get_the_title(); ?>",
+		 "image": "<?php echo get_the_post_thumbnail_url(); ?>",
+		 "genre": "Elaboración de cerveza artesanal", 
+		 "url": "<?php echo get_permalink(); ?>",
+		 "publisher": "Vera Cruz",
+		 "datePublished": "<?php echo get_the_date(); ?>",
+		 "articleBody": "<?php echo strip_tags(get_the_content()); ?>",
+		 "author": {
+			"@type": "Person",
+			"name": "<?php echo get_the_author_meta('display_name', $author_id); ?>"
+		  	}
+	}
+	</script>
+<?php  }
+};
+
 add_action('wp_head', 'schema_product');
 function schema_product(){
 global $product;
@@ -303,4 +325,192 @@ function my_text_strings( $translated_text, $text, $domain ) {
  return $translated_text;
 }
 add_filter( 'gettext', 'my_text_strings', 20, 3 );
+
+add_action('wp_head', 'css_lista_precios');
+function css_lista_precios(){
+if(is_page('lista-de-precios')) {  ?>
+		<style>
+		table {
+			width: 100%;
+			max-width: 100%;
+			border: 1px solid #d5d5d2;
+			border-collapse: collapse
+		}
+
+		table caption {
+			font-family: 'Tungsten A', 'Tungsten B', 'Arial Narrow', Arial, sans-serif;
+			font-weight: 400;
+			font-style: normal;
+			font-size: 2.954rem;
+			line-height: 1;
+			margin-bottom: .75em
+		}
+
+		table th {
+			font-family: 'Gotham SSm A', 'Gotham SSm B', Verdana, sans-serif;
+			font-weight: 400;
+			font-style: normal;
+			text-transform: uppercase;
+			letter-spacing: .02em;
+			font-size: .9353rem;
+			padding: 1.2307em 1.0833em 1.0833em;
+			line-height: 1.333;
+			background-color: #eae9e6
+		}
+
+		table td, table th {
+			text-align: left
+		}
+
+		table td {
+			padding: .92307em 1em .7692em
+		}
+
+		table tbody tr:nth-of-type(even) {
+			background-color: #f9f8f5
+		}
+
+		table tbody th {
+			border-top: 1px solid #d5d5d2
+		}
+
+		table tbody td {
+			border-top: 1px solid #d5d5d2
+		}
+
+		table.wdn_responsive_table thead th abbr {
+			border-bottom: none
+		}
+
+		@media screen and (max-width:47.99em) {
+			table.wdn_responsive_table td, table.wdn_responsive_table th {
+				display: block
+			}
+
+			table.wdn_responsive_table thead tr {
+				display: none
+			}
+
+			table.wdn_responsive_table tbody tr:first-child th {
+				border-top-width: 0
+			}
+
+			table.wdn_responsive_table tbody tr:nth-of-type(even) {
+				background-color: transparent
+			}
+
+			table.wdn_responsive_table tbody td {
+				text-align: left
+			}
+
+			table.wdn_responsive_table tbody td:before {
+				display: block;
+				font-weight: 700;
+				content: attr(data-header)
+			}
+
+			table.wdn_responsive_table tbody td:empty {
+				display: none
+			}
+
+			table.wdn_responsive_table tbody td:nth-of-type(even) {
+				background-color: #f9f8f5
+			}
+		}
+
+		@media (min-width:48em) {
+			table caption {
+				font-size: 2.532rem
+			}
+
+			table th {
+				padding: 1.2307em 1.2307em 1em;
+				font-size: .802rem
+			}
+
+			table td {
+				padding: .75em 1em .602em
+			}
+		}
+
+		@media screen and (min-width:48em) {
+			table.wdn_responsive_table thead th:not(:first-child) {
+				text-align: center
+			}
+
+			table.wdn_responsive_table tbody td {
+				text-align: center
+			}
+
+			table.wdn_responsive_table.flush-left td, table.wdn_responsive_table.flush-left thead th {
+				text-align: left
+			}
+		}
+		</style>
+<?php }
+};
+
+add_action('wp_head', 'css_contacto');
+function css_contacto(){
+if(is_page('contacto')) {  ?>
+		<style>
+		* {
+		  box-sizing: border-box;
+		}
+
+		/* Style inputs */
+		input[type=text], select, textarea {
+		  width: 100%;
+		  padding: 12px;
+		  border: 1px solid #ccc;
+		  margin-top: 6px;
+		  margin-bottom: 16px;
+		  resize: vertical;
+		}
+						 
+		input[type=email], select, textarea {
+		  width: 100%;
+		  padding: 12px;
+		  border: 1px solid #ccc;
+		  margin-top: 6px;
+		  margin-bottom: 16px;
+		  resize: vertical;
+		}
+
+		input[type=submit] {
+		  background-color: #3A6541;
+		  color: white;
+		  padding: 12px 20px;
+		  border: none;
+		  cursor: pointer;
+		}
+
+		input[type=submit]:hover {
+		  background-color: #45a049;
+		}
+						 
+		.aviso {
+			color: grey;
+			margin-top: -28px;
+		}
+						 
+		</style>
+<?php }
+};
+
+add_action('wp_head', 'css_inicio');
+function css_inicio(){
+if(is_front_page()) {  ?>
+		<style>
+			.entry-title {
+				display: none;
+			}
+			
+			.entry-content {
+				display: none;
+			}
+						 
+		</style>
+<?php }
+};
 ?>
