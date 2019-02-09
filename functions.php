@@ -265,4 +265,14 @@ function wc_renaming_order_status( $order_statuses ) {
     return $order_statuses;
 }
 add_filter( 'wc_order_statuses', 'wc_renaming_order_status' );
+
+function rss_post_thumbnail($content) {
+global $post;
+if(has_post_thumbnail($post->ID)) {
+$content = get_the_post_thumbnail($post->ID) . $content;
+}
+return $content;
+}
+add_filter('the_excerpt_rss', 'rss_post_thumbnail');
+add_filter('the_content_feed', 'rss_post_thumbnail');
 ?>
