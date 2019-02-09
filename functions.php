@@ -249,4 +249,7 @@ function custom_storefront_category( $args ) {
 	return $args;
 }
 add_filter('storefront_product_categories_shortcode_args','custom_storefront_category' );
+
+// Desactivar html en comentarios
+add_filter('pre_comment_content', 'wp_specialchars');
 ?>
