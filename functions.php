@@ -592,4 +592,31 @@ if(is_page('finalizar-compra')) {  ?>
 <?php }
 };
 
+add_action('wp_head', 'css_carrito');
+function css_carrito(){
+if(is_page('carrito')) {  ?>
+	<style>
+		.woocommerce-shipping-totals {
+			display:none;
+		}
+		
+		.cart-subtotal {
+			display:none;
+		}
+
+		.order-total {
+			font-size: 24px;
+		}
+						
+		.storefront-breadcrumb {
+			display:none;
+		}
+						
+		.entry-header {
+			margin-top: 3em;
+    		margin-bottom: -3em;
+		}
+	</style>
+<?php }
+};
 ?>
