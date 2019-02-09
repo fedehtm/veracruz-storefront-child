@@ -513,4 +513,10 @@ if(is_front_page()) {  ?>
 		</style>
 <?php }
 };
+
+function remove_country_checkout_field($fields) {
+	unset($fields['order']['order_comments']);
+	return $fields;
+}
+add_filter('woocommerce_checkout_fields', 'remove_country_checkout_field');
 ?>
