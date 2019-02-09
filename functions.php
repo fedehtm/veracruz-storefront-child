@@ -249,4 +249,58 @@ function custom_storefront_category( $args ) {
 	return $args;
 }
 add_filter('storefront_product_categories_shortcode_args','custom_storefront_category' );
+
+// Desactivar html en comentarios
+add_filter('pre_comment_content', 'wp_specialchars');
+
+function wc_renaming_order_status( $order_statuses ) {
+    foreach ( $order_statuses as $key => $status ) {
+        if ( 'wc-completed' === $key ) 
+            $order_statuses['wc-completed'] = _x( 'Entregado', 'Order status', 'woocommerce' );
+		if ( 'wc-completed' === $key ) 
+			$order_statuses['wc-processing'] = _x( 'Pagado', 'Order status', 'woocommerce' );
+		if ( 'wc-completed' === $key ) 
+			$order_statuses['wc-on-hold'] = _x( 'Espera transferencia bancaria', 'Order status', 'woocommerce' );
+    }
+    return $order_statuses;
+}
+add_filter( 'wc_order_statuses', 'wc_renaming_order_status' );
+
+function rss_post_thumbnail($content) {
+global $post;
+if(has_post_thumbnail($post->ID)) {
+$content = get_the_post_thumbnail($post->ID) . $content;
+}
+return $content;
+}
+add_filter('the_excerpt_rss', 'rss_post_thumbnail');
+add_filter('the_content_feed', 'rss_post_thumbnail');
+
+add_action( 'wp_print_styles', 'cf7_deregister_styles', 100 );
+function cf7_deregister_styles() {
+    if ( ! is_page( 'contacto' ) ) {
+        wp_deregister_style( 'contact-form-7' );
+    }
+}
+
+add_action( 'wp_print_scripts', 'cf7_deregister_javascript', 100 );
+function cf7_deregister_javascript() {
+    if ( ! is_page( 'contacto' ) ) {
+        wp_deregister_script( 'contact-form-7' );
+    }
+}
+
+function my_text_strings( $translated_text, $text, $domain ) {
+ switch ( $translated_text ) {
+ case 'Código de clasificación' :
+ $translated_text = __( 'CBU', 'woocommerce' );
+ break;
+
+ case 'Finalizar compra' :
+ $translated_text = __( 'Pasar por caja', 'woocommerce' );
+ break;
+ }
+ return $translated_text;
+}
+add_filter( 'gettext', 'my_text_strings', 20, 3 );
 ?>
