@@ -31,5 +31,9 @@ function remove_homepage_sections_storefront() {
     remove_action( 'homepage', 'storefront_best_selling_products', 70 );
 }
 
-// test
+function disable_yoast_schema_data($data){
+	$data = array();
+	return $data;
+}
+add_filter('wpseo_json_ld_output', 'disable_yoast_schema_data', 10, 1);
 ?>
