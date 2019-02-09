@@ -427,4 +427,52 @@ if(is_page('lista-de-precios')) {  ?>
 		</style>
 <?php }
 };
+
+add_action('wp_head', 'css_contacto');
+function css_contacto(){
+if(is_page('contacto')) {  ?>
+		<style>
+		* {
+		  box-sizing: border-box;
+		}
+
+		/* Style inputs */
+		input[type=text], select, textarea {
+		  width: 100%;
+		  padding: 12px;
+		  border: 1px solid #ccc;
+		  margin-top: 6px;
+		  margin-bottom: 16px;
+		  resize: vertical;
+		}
+						 
+		input[type=email], select, textarea {
+		  width: 100%;
+		  padding: 12px;
+		  border: 1px solid #ccc;
+		  margin-top: 6px;
+		  margin-bottom: 16px;
+		  resize: vertical;
+		}
+
+		input[type=submit] {
+		  background-color: #3A6541;
+		  color: white;
+		  padding: 12px 20px;
+		  border: none;
+		  cursor: pointer;
+		}
+
+		input[type=submit]:hover {
+		  background-color: #45a049;
+		}
+						 
+		.aviso {
+			color: grey;
+			margin-top: -28px;
+		}
+						 
+		</style>
+<?php }
+};
 ?>
