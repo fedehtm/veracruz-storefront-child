@@ -567,4 +567,29 @@ function cart_update_script() {
     <?php
     endif;
 }
+
+add_action('wp_head', 'css_finalizar_compra');
+function css_finalizar_compra(){
+if(is_page('finalizar-compra')) {  ?>
+	<style>
+		.woocommerce-form-login-toggle {
+			display:none;
+		}
+		
+		.woocommerce-privacy-policy-text {
+			display:none;
+		}
+								 
+		.storefront-breadcrumb {
+			display:none;
+		}
+								 
+		.entry-header {
+			margin-top: 3em;
+    		margin-bottom: -3em;
+		}
+	</style>
+<?php }
+};
+
 ?>
