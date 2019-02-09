@@ -252,4 +252,17 @@ add_filter('storefront_product_categories_shortcode_args','custom_storefront_cat
 
 // Desactivar html en comentarios
 add_filter('pre_comment_content', 'wp_specialchars');
+
+function wc_renaming_order_status( $order_statuses ) {
+    foreach ( $order_statuses as $key => $status ) {
+        if ( 'wc-completed' === $key ) 
+            $order_statuses['wc-completed'] = _x( 'Entregado', 'Order status', 'woocommerce' );
+		if ( 'wc-completed' === $key ) 
+			$order_statuses['wc-processing'] = _x( 'Pagado', 'Order status', 'woocommerce' );
+		if ( 'wc-completed' === $key ) 
+			$order_statuses['wc-on-hold'] = _x( 'Espera transferencia bancaria', 'Order status', 'woocommerce' );
+    }
+    return $order_statuses;
+}
+add_filter( 'wc_order_statuses', 'wc_renaming_order_status' );
 ?>
