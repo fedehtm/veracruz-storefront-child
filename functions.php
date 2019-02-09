@@ -175,4 +175,9 @@ if (is_singular('product')) {  ?>
 	</script>
 <?php  }
 };
+
+add_filter( 'get_product_search_form' , 'me_custom_product_searchform' );
+function me_custom_product_searchform() {
+echo do_shortcode('[yith_woocommerce_ajax_search]');
+}
 ?>
