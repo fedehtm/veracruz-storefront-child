@@ -275,4 +275,18 @@ return $content;
 }
 add_filter('the_excerpt_rss', 'rss_post_thumbnail');
 add_filter('the_content_feed', 'rss_post_thumbnail');
+
+add_action( 'wp_print_styles', 'cf7_deregister_styles', 100 );
+function cf7_deregister_styles() {
+    if ( ! is_page( 'contacto' ) ) {
+        wp_deregister_style( 'contact-form-7' );
+    }
+}
+
+add_action( 'wp_print_scripts', 'cf7_deregister_javascript', 100 );
+function cf7_deregister_javascript() {
+    if ( ! is_page( 'contacto' ) ) {
+        wp_deregister_script( 'contact-form-7' );
+    }
+}
 ?>
