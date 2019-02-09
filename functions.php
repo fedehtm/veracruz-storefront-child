@@ -93,4 +93,44 @@ if(is_page('blog')) {  ?>
 	</script>
 <?php  }
 };
+
+add_action('wp_head', 'schema_shop');
+function schema_shop(){
+if(is_page('tienda')) {  ?>
+	<script type="application/ld+json">
+	{
+	  "@context": "http://schema.org",
+	  "@type": "Store",
+	  "name": "Vera Cruz | Insumos Cerveceros",
+	  "description": "Venta y provisión de materias primas e insumos para cerveceros.",
+	  "logo": "https://www.veracruzinsumos.com.ar/wp-content/uploads/Logo-Schema-Markup.jpg",
+	  "image": "https://www.veracruzinsumos.com.ar/wp-content/uploads/Frente-Schema-Markup.jpg",
+	  "url": "https://www.veracruzinsumos.com.ar/",
+	  "sameAs": ["https://www.facebook.com/insumosveracruz/"],
+	  "openingHours": "Mo-Fr 08:00-17:00",
+	  "address":
+	  {
+	  "@type": "PostalAddress",
+	  "streetAddress": "Estanislao Zeballos 3621",
+	  "addressLocality": "Santa Fe",
+	  "addressRegion": "Santa Fe",
+	  "addressCountry": "Argentina"
+	  },
+	  "geo": {
+		"@type": "GeoCoordinates",
+		"latitude": "-31.602652",
+		"longitude": "-60.707833"
+	  },
+	  "aggregateRating": {
+		"@type": "AggregateRating",
+		"bestRating": "5",
+		"ratingValue": "4.0",
+		"reviewCount": "68"
+	  },
+	  "priceRange": "$$$",
+	  "telephone": "+54-0342-484-8642"
+	}
+	</script>
+<?php  }
+};
 ?>
