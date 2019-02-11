@@ -587,6 +587,20 @@ if(is_page('finalizar-compra')) {  ?>
 		.entry-header {
 			margin-top: 3em;
     		margin-bottom: -3em;
+			
+		#billing_first_name_field {
+			width: 100%;
+		}
+		
+		#billing_last_name_field {
+			width: 100%;
+		}
+		
+		#customer_details {
+			width: 40%;
+		}
+		#order_review {
+			width: 55%;
 		}
 	</style>
 <?php }
