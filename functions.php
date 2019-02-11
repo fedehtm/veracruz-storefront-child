@@ -588,17 +588,27 @@ if(is_page('finalizar-compra')) {  ?>
 			margin-top: 3em;
     		margin-bottom: -3em;
 			
-		#billing_first_name_field, #billing_last_name_field {
+		.woocommerce form .form-row {
 			width: 100% !important;
-			float: left !important;
-			margin-right: 4%;
 		}
 		
-		#customer_details {
+		.col2-set {
 			width: 40% !important;
 		}
-		#order_review {
+		
+		.woocommerce-checkout-review-order {
 			width: 55% !important;
+		}
+		
+		.custom-checkout h3 {
+			background-color: #165f1c;  /****CHANGE TO COLOR YOU WANT TO USE FOR TITLE BACKGROUND ****/
+			width: 40%;
+			text-align: center;
+			padding: 10px;
+			border-radius: 5px;
+			margin-top: 50px;
+			color: #FFF;
+			float: right;
 		}
 	</style>
 <?php }
