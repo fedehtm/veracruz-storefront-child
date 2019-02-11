@@ -630,4 +630,12 @@ if(is_page('carrito')) {  ?>
 	</style>
 <?php }
 };
+
+add_filter('woocommerce_address_to_edit', 'woocommerce_address_to_edit');
+function woocommerce_address_to_edit($address){
+        array_key_exists('billing_city', $address)?$address['billing_city']['custom_attributes'] = array('readonly'=>'readonly'):'';
+        array_key_exists('billing_state', $address)?$address['billing_state']['custom_attributes'] = array('readonly'=>'readonly'):'';
+        array_key_exists('billing_postcode', $address)?$address['billing_postcode']['custom_attributes'] = array('readonly'=>'readonly'):'';
+        return $address;
+}
 ?>
