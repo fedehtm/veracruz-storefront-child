@@ -591,24 +591,62 @@ if(is_page('finalizar-compra')) {  ?>
 		.woocommerce form .form-row {
 			width: 100% !important;
 		}
-		
-		.col2-set {
-			width: 40% !important;
+		.woocommerce-checkout #payment div.payment_box input.input-text, .woocommerce-checkout #payment div.payment_box textarea {
+			width: 100% !important;
+			padding: 8px;
 		}
-		
-		.woocommerce-checkout-review-order {
-			width: 55% !important;
+		.woocommerce #payment .form-row select, .woocommerce-page #payment .form-row select {
+			width: 100%;
+			height: 30px;
 		}
-		
+		.woocommerce .col2-set .col-1, .woocommerce-page .col2-set .col-1,.woocommerce .col2-set .col-2, .woocommerce-page .col2-set .col-2 {
+			float: left;
+			width: 100%;
+		}
 		.custom-checkout h3 {
 			background-color: #165f1c;  /****CHANGE TO COLOR YOU WANT TO USE FOR TITLE BACKGROUND ****/
-			width: 40%;
+			width: 45%;
 			text-align: center;
 			padding: 10px;
 			border-radius: 5px;
 			margin-top: 50px;
 			color: #FFF;
 			float: right;
+		}
+		.woocommerce form .form-row input.input-text, .woocommerce form .form-row textarea {
+			padding: .6180469716em;
+			background-color: #f2f2f2;
+			color: #43454b;
+			outline: 0;
+			border: 0;
+			-webkit-appearance: none;
+			border-radius: 2px;
+			box-sizing: border-box;
+			font-weight: 400;
+		   border:solid 2px #e4e4e4;
+		}
+
+		#wc_checkout_add_ons {
+			width: 45%;
+			float: right;
+			text-align: center;
+		}
+
+		@media screen and (min-width: 980px) {
+		.woocommerce-shipping-fields h3, .woocommerce-billing-fields h3 {width:100%;}
+		.woocommerce .col2-set, .woocommerce-page .col2-set {
+		 width: 45%;
+		 float: left;
+		}
+		.woocommerce-checkout-review-order{
+		 width: 45%;
+		 float: right;
+		}
+		}
+		@media screen and (max-width: 979px) {
+		.custom-checkout h3 {
+		 width: 100%;
+		}
 		}
 	</style>
 <?php }
