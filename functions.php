@@ -588,19 +588,17 @@ if(is_page('finalizar-compra')) {  ?>
 			margin-top: 3em;
     		margin-bottom: -3em;
 			
-		#billing_first_name_field {
-			width: 100%;
-		}
-		
-		#billing_last_name_field {
-			width: 100%;
+		#billing_first_name_field, #billing_last_name_field {
+			width: 100% !important;
+			float: left !important;
+			margin-right: 4%;
 		}
 		
 		#customer_details {
-			width: 40%;
+			width: 40% !important;
 		}
 		#order_review {
-			width: 55%;
+			width: 55% !important;
 		}
 	</style>
 <?php }
