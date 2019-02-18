@@ -638,4 +638,11 @@ function woocommerce_address_to_edit($address){
         array_key_exists('billing_postcode', $address)?$address['billing_postcode']['custom_attributes'] = array('readonly'=>'readonly'):'';
         return $address;
 }
+
+function mode_maintenance(){
+    if(!current_user_can('edit_themes') || !is_user_logged_in()){
+        wp_die('<div style="border:solid 1px grey;"><h1 style="color:#FF942A; text-align:center; text-transform:uppercase;">Sitio en Mantenimiento</h1><p style="text-align:center; font-size:18px;">Estamos trabajando en el nuevo sitio ¡en breve estaremos online!</p></div>', 'Sitio en Mantenimiento', array( ‘response’ => 503 )); 
+    }
+}
+add_action('init', 'mode_maintenance'); 
 ?>
