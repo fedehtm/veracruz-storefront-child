@@ -247,7 +247,10 @@ remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 1
 }
 
 function quitar_intervalo( $price, $product ) {
-    // Precio normal
+     if (is_product()) {
+    return $product->get_price();
+	} else {
+	// Precio normal
     $prices = array( $product->get_variation_price( 'min', true ), $product->get_variation_price( 'max', true ) );
     $price = $prices[0] !== $prices[1] ? sprintf( __( 'Desde: %1$s', 'woocommerce' ), wc_price( $prices[0] ) ) : wc_price( $prices[0] );
  
@@ -261,6 +264,7 @@ function quitar_intervalo( $price, $product ) {
         $price = '<del>' . $saleprice . '</del> <ins>' . $price . '</ins>';
     }     
     return $price;
+	}
 }
 add_filter( 'woocommerce_variable_sale_price_html', 'quitar_intervalo', 10, 2 );
 add_filter( 'woocommerce_variable_price_html', 'quitar_intervalo', 10, 2 );
