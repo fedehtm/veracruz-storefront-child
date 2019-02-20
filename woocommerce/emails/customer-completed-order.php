@@ -52,7 +52,7 @@ do_action( 'woocommerce_email_customer_details', $order, $sent_to_admin, $plain_
 ?>
 <p>
 <?php esc_html_e( 'Thanks for shopping with us.', 'woocommerce' ); ?>
-Nos interesa conocer tu opinión pública, puedes dejarla <a href="https://www.google.com/search?hl=es-419&amp;gl=ar&amp;q=Vera+Cruz,+BEJ,+Estanislao+Zeballos+3621,+S3006+Santa+Fe&amp;ludocid=5400023878627631415#lrd=0x95b5a99108bae6e5:0x4af0bd1b683a2137,3">aquí</a>.
+Nos interesa conocer tu opinión pública, podes dejarla <a href="https://www.google.com/search?hl=es-419&amp;gl=ar&amp;q=Vera+Cruz,+BEJ,+Estanislao+Zeballos+3621,+S3006+Santa+Fe&amp;ludocid=5400023878627631415#lrd=0x95b5a99108bae6e5:0x4af0bd1b683a2137,3">aquí</a>.
 </p>
 <?php
 
