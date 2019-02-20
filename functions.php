@@ -269,7 +269,32 @@ function quitar_intervalo( $price, $product ) {
 add_filter( 'woocommerce_variable_sale_price_html', 'quitar_intervalo', 10, 2 );
 add_filter( 'woocommerce_variable_price_html', 'quitar_intervalo', 10, 2 );
 
+
 add_filter('woocommerce_show_variation_price', function() {return true;});
+function woocommerce_template_single_price() {
+    global $product;
+    if ( ! $product->is_type('variable') ) { 
+        woocommerce_get_template( 'single-product/price.php' );
+    }
+}
+
+function shuffle_variable_product_elements(){
+    if ( is_product() ) {
+        global $post;
+        $product = wc_get_product( $post->ID );
+        if ( $product->is_type( 'variable' ) ) {
+            remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation', 10 );
+            add_action( 'woocommerce_before_variations_form', 'woocommerce_single_variation', 20 );
+
+            remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
+            add_action( 'woocommerce_before_variations_form', 'woocommerce_template_single_title', 10 );
+
+            remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
+            add_action( 'woocommerce_before_variations_form', 'woocommerce_template_single_excerpt', 30 );
+        }
+    }
+}
+add_action( 'woocommerce_before_single_product', 'shuffle_variable_product_elements' );
 
 // Category Products
 function custom_storefront_category( $args ) {
