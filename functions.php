@@ -269,6 +269,8 @@ function quitar_intervalo( $price, $product ) {
 add_filter( 'woocommerce_variable_sale_price_html', 'quitar_intervalo', 10, 2 );
 add_filter( 'woocommerce_variable_price_html', 'quitar_intervalo', 10, 2 );
 
+add_filter('woocommerce_show_variation_price', function() {return true;});
+
 // Category Products
 function custom_storefront_category( $args ) {
 	$args['number'] = 10;
