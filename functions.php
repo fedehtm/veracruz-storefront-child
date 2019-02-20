@@ -639,9 +639,9 @@ function woocommerce_address_to_edit($address){
         return $address;
 }
 
-add_action('wp_head', 'adsense_script');
-function adsense_script(){
-	?>
+add_action('wp_head', 'adsense_script2');
+function adsense_script2(){
+if (is_singular('post')) {  ?>
 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<script>
 	  (adsbygoogle = window.adsbygoogle || []).push({
@@ -649,6 +649,6 @@ function adsense_script(){
 		enable_page_level_ads: true
 	  });
 	</script>
-<?php
+<?php  }
 };
 ?>
