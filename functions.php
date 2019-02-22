@@ -685,15 +685,24 @@ if (is_singular('post')) {  ?>
 
 // insertar el SDK de Facebook en el header de todas los post del blog
 /*
-<div id="fb-root"></div>
-<script async defer src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v3.2&appId=2429886243720598&autoLogAppEvents=1"></script>
+	<div id="fb-root"></div>
+	<script async defer src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v3.2&appId=2429886243720598&autoLogAppEvents=1"></script>
 */
 
 // insertar el div de comentarios con el hook "comment_form_top"
 /*
-<div class="fb-comments" data-href="https://www.veracruzinsumos.com.ar/"></div>
+	<div class="fb-comments" data-href="https://www.veracruzinsumos.com.ar/"></div>
 */
 
-// eliminar form comentarios de wordpress
+// eliminar form comentarios de wordpress con CSS
+/*
+	.comments-section-title {
+	display: none; 
+	} 
+
+	#comments-form {
+	display: none;  
+	}
+*/
 
 ?>
