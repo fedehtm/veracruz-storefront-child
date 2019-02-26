@@ -639,16 +639,19 @@ function woocommerce_address_to_edit($address){
         return $address;
 }
 
-add_action('wp_head', 'adsense_script2');
-function adsense_script2(){
-if (is_singular('post')) {  ?>
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<script>
-	  (adsbygoogle = window.adsbygoogle || []).push({
-		google_ad_client: "ca-pub-4085127056158451",
-		enable_page_level_ads: true
-	  });
-	</script>
-<?php  }
-};
+/*
+	add_action('wp_head', 'adsense_script2');
+	function adsense_script2(){
+	if (is_singular('post')) {  ?>
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script>
+		  (adsbygoogle = window.adsbygoogle || []).push({
+			google_ad_client: "ca-pub-4085127056158451",
+			enable_page_level_ads: true
+		  });
+		</script>
+	<?php  }
+	};
+*/
+
 ?>
