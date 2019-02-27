@@ -174,7 +174,7 @@ if (is_singular('product')) {  ?>
 		"@type": "Offer",
 		"availability": "http://schema.org/<?php echo $product->is_in_stock() ? 'InStock' : 'OutOfStock'; ?>",
 		"price": "<?php echo $product->get_price(); ?>",
-		"priceValidUntil": "<?php echo date('Y-m-d'); ?>", //en php usar comillas "", en html apostrofe ''
+		"priceValidUntil": "2019-31-12",	// "<?php echo date("Y-m-d"); ?>", //en php usar comillas "", en html apostrofe ''
 		"priceCurrency": "<?php echo get_woocommerce_currency(); ?>",
 		"url": "<?php echo get_permalink( $product->get_id() ); ?>"
 		},
