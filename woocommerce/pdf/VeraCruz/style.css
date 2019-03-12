@@ -131,9 +131,10 @@ td.shop-info {
 }
 
 /* Recipient addressses & order data */
-table.order-data-addresses {
+table.factura-order-data-addresses {
 	width: 100%;
 	margin-bottom: 5mm;
+	font-size: 12pt;
 }
 
 table.remito-order-data-addresses {

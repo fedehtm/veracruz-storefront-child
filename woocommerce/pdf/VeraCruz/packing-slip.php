@@ -22,7 +22,8 @@
 </table>
 
 <h1 class="document-type-label">
-Remito - Pedido <?php $this->order_number(); ?> (<?php echo wc_get_order_status_name($order->get_status()); ?>)
+Remito - Pedido <?php $this->order_number(); ?> 
+(<?php echo ucwords(strtolower(wc_get_order_status_name($order->get_status()))); ?>)
 </h1>
 
 <?php do_action( 'wpo_wcpdf_after_document_label', $this->type, $this->order ); ?>
@@ -33,8 +34,8 @@ Remito - Pedido <?php $this->order_number(); ?> (<?php echo wc_get_order_status_
 	<tr>	
 		<td>Nombre</td>
 		<td>
-			<?php echo $order->shipping_first_name; ?>
-			<?php echo $order->shipping_last_name; ?>
+			<?php echo ucwords($order->shipping_first_name); ?>
+			<?php echo ucwords($order->shipping_last_name); ?>
 		</td>
 	</tr>
 	<tr>	
@@ -46,10 +47,10 @@ Remito - Pedido <?php $this->order_number(); ?> (<?php echo wc_get_order_status_
 	<tr>
 		<td>Dirección</td>
 		<td>
-			<?php echo $order->shipping_address_1; ?>
+			<?php echo ucwords($order->shipping_address_1); ?>
 			<?php echo $order->shipping_address_2; ?>
 			, 
-			<?php echo $order->shipping_city; ?>
+			<?php echo ucwords($order->shipping_city); ?>
 			(<?php echo $order->shipping_postcode; ?>)
 			, 
 			<?php 
