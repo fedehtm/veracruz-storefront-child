@@ -23,7 +23,6 @@
 
 <h1 class="document-type-label">
 Remito - Pedido <?php $this->order_number(); ?> 
-(<?php echo ucwords(strtolower(wc_get_order_status_name($order->get_status()))); ?>)
 </h1>
 
 <?php do_action( 'wpo_wcpdf_after_document_label', $this->type, $this->order ); ?>
@@ -109,7 +108,7 @@ Remito - Pedido <?php $this->order_number(); ?>
 
 <?php do_action( 'wpo_wcpdf_after_order_details', $this->type, $this->order ); ?>
 
-<h4>Peso total: 
+<h3>Peso total: 
 <?php
 foreach( $order->get_items() as $item_id => $product_item ){
         $quantity = $product_item->get_quantity(); // get quantity
@@ -122,9 +121,9 @@ foreach( $order->get_items() as $item_id => $product_item ){
     // Output
     echo round($total_weight);
 ?>
- kg.</h4>
+ kg.</h3>
  
-<h4>Valor declarado: $
+<h3>Valor declarado: $
 <?php
 foreach( $order->get_items() as $item_id => $product_item ){
         $quantity = $product_item->get_quantity(); // get quantity
@@ -135,9 +134,9 @@ foreach( $order->get_items() as $item_id => $product_item ){
     }
 	
     // Output
-    echo round($total_price);
+    echo round($total_price,-2);
 ?>
- </h4>
+ </h3>
 
 <!-- &nbsp; -->
  
