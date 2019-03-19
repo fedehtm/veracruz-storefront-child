@@ -165,7 +165,7 @@ if (is_singular('product')) {  ?>
 	  "@context": "http://schema.org",
 	  "@type": "Product",
 	  "name": "<?php echo $product->get_name(); ?>",
-	  "description": "<?php echo strip_tags($product->get_description()); ?>",
+	  "description": "Ver descripción en el link incluido.",
 	  "image": "<?php echo get_the_post_thumbnail_url( $product->get_id(), 'full' ); ?>",
 	  "url": "<?php echo get_permalink( $product->get_id() ); ?>",
 	  "sku": "<?php echo $product->get_sku(); ?>",
@@ -174,7 +174,7 @@ if (is_singular('product')) {  ?>
 		"@type": "Offer",
 		"availability": "http://schema.org/<?php echo $product->is_in_stock() ? 'InStock' : 'OutOfStock'; ?>",
 		"price": "<?php echo $product->get_price(); ?>",
-		"priceValidUntil": "2019-31-12",
+		"priceValidUntil": "2019-12-31",
 		"priceCurrency": "<?php echo get_woocommerce_currency(); ?>",
 		"url": "<?php echo get_permalink( $product->get_id() ); ?>"
 		},
