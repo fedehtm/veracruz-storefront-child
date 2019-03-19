@@ -1,6 +1,8 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 <?php do_action( 'wpo_wcpdf_before_document', $this->type, $this->order ); ?>
 
+<?php $order = new WC_Order($order_id); ?>
+
 <table class="head container">
 	<tr>
 		<td class="header">
@@ -20,7 +22,7 @@
 </table>
 
 <h1 class="document-type-label">
-Remito - Pedido <?php $this->order_number(); ?>
+Remito - Pedido <?php $this->order_number(); ?> 
 </h1>
 
 <?php do_action( 'wpo_wcpdf_after_document_label', $this->type, $this->order ); ?>
@@ -31,30 +33,36 @@ Remito - Pedido <?php $this->order_number(); ?>
 	<tr>	
 		<td>Nombre</td>
 		<td>
-			<?php echo $order->get_shipping_first_name(); ?>
-			<?php echo $order->get_shipping_last_name(); ?>
+			<?php echo ucwords($order->shipping_first_name); ?>
+			<?php echo ucwords($order->shipping_last_name); ?>
 		</td>
 	</tr>
 	<tr>	
 		<td>CUIT/DNI</td>
 		<td>
-			<?php echo $order->get_shipping_company(); ?>
+			<?php echo $order->shipping_company; ?>
 		</td>
 	</tr>
 	<tr>
 		<td>Dirección</td>
 		<td>
-			<?php echo $order->get_shipping_address_1(); ?>
-			<?php echo $order->get_shipping_address_2(); ?>
+			<?php echo ucwords($order->shipping_address_1); ?>
+			<?php echo $order->shipping_address_2; ?>
 			, 
-			<?php echo $order->get_shipping_city(); ?>
-			(<?php echo $order->get_shipping_postcode(); ?>)
+			<?php echo ucwords($order->shipping_city); ?>
+			(<?php echo $order->shipping_postcode; ?>)
+			, 
+			<?php 
+			$country = $order->get_shipping_country();
+			$state = $order->get_shipping_state();
+			echo WC()->countries->get_states($country)[$state];
+			?>
 		</td>
 	</tr>
 	<tr>	
 		<td>Teléfono</td>
 		<td>
-			<?php echo $order->get_billing_phone(); ?>
+			<?php echo $order->billing_phone; ?>
 		</td>
 	</tr>
 </table>
@@ -100,7 +108,7 @@ Remito - Pedido <?php $this->order_number(); ?>
 
 <?php do_action( 'wpo_wcpdf_after_order_details', $this->type, $this->order ); ?>
 
-<h4>Peso total: 
+<h3>Peso total: 
 <?php
 foreach( $order->get_items() as $item_id => $product_item ){
         $quantity = $product_item->get_quantity(); // get quantity
@@ -113,9 +121,9 @@ foreach( $order->get_items() as $item_id => $product_item ){
     // Output
     echo round($total_weight);
 ?>
- kg.</h4>
+ kg.</h3>
  
-<h4>Valor declarado: $
+<h3>Valor declarado: $
 <?php
 foreach( $order->get_items() as $item_id => $product_item ){
         $quantity = $product_item->get_quantity(); // get quantity
@@ -126,13 +134,13 @@ foreach( $order->get_items() as $item_id => $product_item ){
     }
 	
     // Output
-    echo round($total_price);
+    echo round($total_price,-2);
 ?>
- </h4>
+ </h3>
 
-&nbsp;
+<!-- &nbsp; -->
  
-<h3>Abona en destino / Pago en origen</h3>
+<h3>FLETE PAGO: EN DESTINO / EN ORIGEN </h3>
 
 <?php do_action( 'wpo_wcpdf_before_customer_notes', $this->type, $this->order ); ?>
 <div class="customer-notes">

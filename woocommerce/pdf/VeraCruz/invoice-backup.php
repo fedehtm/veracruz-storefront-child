@@ -19,7 +19,7 @@
 </table>
 
 <h1 class="document-type-label">
-	<?php if( $this->has_header_logo() ) echo 'Pedido N° '; ?>
+	Pedido N° 
 	<?php $this->order_number(); ?>
 </h1>
 
@@ -53,6 +53,10 @@
 				<tr class="order-date">
 					<th><?php _e( 'Order Date:', 'woocommerce-pdf-invoices-packing-slips' ); ?></th>
 					<td><?php $this->order_date(); ?></td>
+				</tr>
+				<tr>
+				<th><?php _e( 'Estado:', 'woocommerce-pdf-invoices-packing-slips' ); ?></th>
+				<td><?php echo wc_get_order_status_name($order->get_status()); ?></td>
 				</tr>
 				<?php do_action( 'wpo_wcpdf_after_order_data', $this->type, $this->order ); ?>
 			</table>			
