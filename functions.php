@@ -158,45 +158,53 @@ if (is_singular('post')) {  ?>
 
 add_action('wp_head', 'schema_product');
 function schema_product(){
-global $product;
-if (is_singular('product')) {  ?>
-	<script type="application/ld+json">
-	{
-	  "@context": "http://schema.org",
-	  "@type": "Product",
-	  "name": "<?php echo $product->get_name(); ?>",
-	  "description": "Ver descripción en el link incluido.",
-	  "image": "<?php echo get_the_post_thumbnail_url( $product->get_id(), 'full' ); ?>",
-	  "url": "<?php echo get_permalink( $product->get_id() ); ?>",
-	  "sku": "<?php echo $product->get_sku(); ?>",
-	  "brand": "<?php echo get_post_meta(get_the_ID(), 'brand', TRUE); ?>",
-	  "offers": {
-		"@type": "Offer",
-		"availability": "http://schema.org/<?php echo $product->is_in_stock() ? 'InStock' : 'OutOfStock'; ?>",
-		"price": "<?php echo $product->get_price(); ?>",
-		"priceValidUntil": "2019-12-31",
-		"priceCurrency": "<?php echo get_woocommerce_currency(); ?>",
-		"url": "<?php echo get_permalink( $product->get_id() ); ?>"
-		},
-	  "aggregateRating": {
-		"@type": "AggregateRating",
-		"bestRating": "5",
-		"ratingValue": "5",
-		"reviewCount": "3"
-	  	},
-	  "review": {
-		  "author": "Federico",
-		  "reviewRating": {
-			"@type": "Rating",
-			"bestRating": "5",
-			"ratingValue": "5",
-			"worstRating": "4"
-		  }
-		}
-	}
-	</script>
-<?php  }
-};
+    global $product;
+
+    if ( is_product() && ! is_a($product, 'WC_Product') ) {
+        $product = wc_get_product( get_the_id() );
+    }
+
+    if ( is_product() && is_a($product, 'WC_Product') ) :
+
+    ?>
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Product",
+      "name": "<?php echo $product->get_name(); ?>",
+      "description": "Ver descripción en el link incluido.",
+      "image": "<?php echo get_the_post_thumbnail_url( $product->get_id(), 'full' ); ?>",
+      "url": "<?php echo get_permalink( $product->get_id() ); ?>",
+      "sku": "<?php echo $product->get_sku(); ?>",
+      "brand": "<?php echo $product->get_meta('brand'); ?>",
+      "offers": {
+        "@type": "Offer",
+        "availability": "http://schema.org/<?php echo $product->is_in_stock() ? 'InStock' : 'OutOfStock'; ?>",
+        "price": "<?php echo $product->get_price(); ?>",
+        "priceValidUntil": "2019-12-31",
+        "priceCurrency": "<?php echo get_woocommerce_currency(); ?>",
+        "url": "<?php echo $product->get_permalink(); ?>"
+        },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "bestRating": "5",
+        "ratingValue": "5",
+        "reviewCount": "3"
+        },
+      "review": {
+          "author": "Federico",
+          "reviewRating": {
+            "@type": "Rating",
+            "bestRating": "5",
+            "ratingValue": "5",
+            "worstRating": "4"
+          }
+        }
+    }
+    </script>
+    <?php
+    endif;
+}
 
 add_filter( 'get_product_search_form' , 'me_custom_product_searchform' );
 function me_custom_product_searchform() {
