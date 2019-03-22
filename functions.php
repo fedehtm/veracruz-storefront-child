@@ -365,53 +365,11 @@ function my_text_strings( $translated_text, $text, $domain ) {
 }
 add_filter( 'gettext', 'my_text_strings', 20, 3 );
 
-add_action('wp_head', 'css_contacto');
-function css_contacto(){
-if(is_page('contacto')) {  ?>
-		<style>
-		* {
-		  box-sizing: border-box;
-		}
-
-		/* Style inputs */
-		input[type=text], select, textarea {
-		  width: 100%;
-		  padding: 12px;
-		  border: 1px solid #ccc;
-		  margin-top: 6px;
-		  margin-bottom: 16px;
-		  resize: vertical;
-		}
-						 
-		input[type=email], select, textarea {
-		  width: 100%;
-		  padding: 12px;
-		  border: 1px solid #ccc;
-		  margin-top: 6px;
-		  margin-bottom: 16px;
-		  resize: vertical;
-		}
-
-		input[type=submit] {
-		  background-color: #3A6541;
-		  color: white;
-		  padding: 12px 20px;
-		  border: none;
-		  cursor: pointer;
-		}
-
-		input[type=submit]:hover {
-		  background-color: #45a049;
-		}
-						 
-		.aviso {
-			color: grey;
-			margin-top: -28px;
-		}
-						 
-		</style>
-<?php }
-};
+add_action( 'wp_print_styles', 'tablepress_deregister_styles', 100 );
+function tablepress_deregister_styles() {
+    if ( ! is_page( 'lista-de-precios' ) ) {
+    }
+}
 
 add_action('wp_head', 'css_inicio');
 function css_inicio(){
