@@ -365,6 +365,15 @@ function my_text_strings( $translated_text, $text, $domain ) {
 }
 add_filter( 'gettext', 'my_text_strings', 20, 3 );
 
+add_filter( 'tablepress_use_default_css', 'vc_tablepress_css_conditional_load' );
+add_filter( 'tablepress_custom_css_url', 'vc_tablepress_css_conditional_load' );
+function vc_tablepress_css_conditional_load( $load ) {
+	if ( ! is_page( 'lista-de-precios' ) ) {
+		$load = false;
+	}
+	return $load;
+}
+
 add_action( 'wp_print_styles', 'tablepress_deregister_styles', 100 );
 function tablepress_deregister_styles() {
     if ( ! is_page( 'lista-de-precios' ) ) {
