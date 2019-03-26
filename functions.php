@@ -158,45 +158,53 @@ if (is_singular('post')) {  ?>
 
 add_action('wp_head', 'schema_product');
 function schema_product(){
-global $product;
-if (is_singular('product')) {  ?>
-	<script type="application/ld+json">
-	{
-	  "@context": "http://schema.org",
-	  "@type": "Product",
-	  "name": "<?php echo $product->get_name(); ?>",
-	  "description": "<?php echo strip_tags($product->get_description()); ?>",
-	  "image": "<?php echo get_the_post_thumbnail_url( $product->get_id(), 'full' ); ?>",
-	  "url": "<?php echo get_permalink( $product->get_id() ); ?>",
-	  "sku": "<?php echo $product->get_sku(); ?>",
-	  "brand": "<?php echo get_post_meta(get_the_ID(), 'brand', TRUE); ?>",
-	  "offers": {
-		"@type": "Offer",
-		"availability": "http://schema.org/<?php echo $product->is_in_stock() ? 'InStock' : 'OutOfStock'; ?>",
-		"price": "<?php echo $product->get_price(); ?>",
-		"priceValidUntil": "<?php echo date("Y-m-d"); ?>",
-		"priceCurrency": "<?php echo get_woocommerce_currency(); ?>",
-		"url": "<?php echo get_permalink( $product->get_id() ); ?>"
-		},
-	  "aggregateRating": {
-		"@type": "AggregateRating",
-		"bestRating": "5",
-		"ratingValue": "5",
-		"reviewCount": "3"			//"<?php echo rand(5, 15); ?>"
-	  	},
-	  "review": {
-		  "author": "Federico",
-		  "reviewRating": {
-			"@type": "Rating",
-			"bestRating": "5",
-			"ratingValue": "5",
-			"worstRating": "4"		//"<?php echo rand(3, 5); ?>"
-		  }
-		}
-	}
-	</script>
-<?php  }
-};
+    global $product;
+
+    if ( is_product() && ! is_a($product, 'WC_Product') ) {
+        $product = wc_get_product( get_the_id() );
+    }
+
+    if ( is_product() && is_a($product, 'WC_Product') ) :
+
+    ?>
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Product",
+      "name": "<?php echo $product->get_name(); ?>",
+      "description": "Ver descripción en el link incluido.",
+      "image": "<?php echo get_the_post_thumbnail_url( $product->get_id(), 'full' ); ?>",
+      "url": "<?php echo get_permalink( $product->get_id() ); ?>",
+      "sku": "<?php echo $product->get_sku(); ?>",
+      "brand": "<?php echo $product->get_meta('brand'); ?>",
+      "offers": {
+        "@type": "Offer",
+        "availability": "http://schema.org/<?php echo $product->is_in_stock() ? 'InStock' : 'OutOfStock'; ?>",
+        "price": "<?php echo $product->get_price(); ?>",
+        "priceValidUntil": "2019-12-31",
+        "priceCurrency": "<?php echo get_woocommerce_currency(); ?>",
+        "url": "<?php echo $product->get_permalink(); ?>"
+        },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "bestRating": "5",
+        "ratingValue": "5",
+        "reviewCount": "3"
+        },
+      "review": {
+          "author": "Federico",
+          "reviewRating": {
+            "@type": "Rating",
+            "bestRating": "5",
+            "ratingValue": "5",
+            "worstRating": "4"
+          }
+        }
+    }
+    </script>
+    <?php
+    endif;
+}
 
 add_filter( 'get_product_search_form' , 'me_custom_product_searchform' );
 function me_custom_product_searchform() {
@@ -247,7 +255,10 @@ remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 1
 }
 
 function quitar_intervalo( $price, $product ) {
-    // Precio normal
+     if (is_product()) {
+    return $product->get_price();
+	} else {
+	// Precio normal
     $prices = array( $product->get_variation_price( 'min', true ), $product->get_variation_price( 'max', true ) );
     $price = $prices[0] !== $prices[1] ? sprintf( __( 'Desde: %1$s', 'woocommerce' ), wc_price( $prices[0] ) ) : wc_price( $prices[0] );
  
@@ -261,9 +272,37 @@ function quitar_intervalo( $price, $product ) {
         $price = '<del>' . $saleprice . '</del> <ins>' . $price . '</ins>';
     }     
     return $price;
+	}
 }
 add_filter( 'woocommerce_variable_sale_price_html', 'quitar_intervalo', 10, 2 );
 add_filter( 'woocommerce_variable_price_html', 'quitar_intervalo', 10, 2 );
+
+
+add_filter('woocommerce_show_variation_price', function() {return true;});
+function woocommerce_template_single_price() {
+    global $product;
+    if ( ! $product->is_type('variable') ) { 
+        woocommerce_get_template( 'single-product/price.php' );
+    }
+}
+
+function shuffle_variable_product_elements(){
+    if ( is_product() ) {
+        global $post;
+        $product = wc_get_product( $post->ID );
+        if ( $product->is_type( 'variable' ) ) {
+            remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation', 10 );
+            add_action( 'woocommerce_before_variations_form', 'woocommerce_single_variation', 20 );
+
+            remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
+            add_action( 'woocommerce_before_variations_form', 'woocommerce_template_single_title', 10 );
+
+            remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
+            add_action( 'woocommerce_before_variations_form', 'woocommerce_template_single_excerpt', 30 );
+        }
+    }
+}
+add_action( 'woocommerce_before_single_product', 'shuffle_variable_product_elements' );
 
 // Category Products
 function custom_storefront_category( $args ) {
@@ -326,177 +365,20 @@ function my_text_strings( $translated_text, $text, $domain ) {
 }
 add_filter( 'gettext', 'my_text_strings', 20, 3 );
 
-add_action('wp_head', 'css_lista_precios');
-function css_lista_precios(){
-if(is_page('lista-de-precios')) {  ?>
-		<style>
-		table {
-			width: 100%;
-			max-width: 100%;
-			border: 1px solid #d5d5d2;
-			border-collapse: collapse
-		}
+add_filter( 'tablepress_use_default_css', 'vc_tablepress_css_conditional_load' );
+add_filter( 'tablepress_custom_css_url', 'vc_tablepress_css_conditional_load' );
+function vc_tablepress_css_conditional_load( $load ) {
+	if ( ! is_page( 'lista-de-precios' ) ) {
+		$load = false;
+	}
+	return $load;
+}
 
-		table caption {
-			font-family: 'Tungsten A', 'Tungsten B', 'Arial Narrow', Arial, sans-serif;
-			font-weight: 400;
-			font-style: normal;
-			font-size: 2.954rem;
-			line-height: 1;
-			margin-bottom: .75em
-		}
-
-		table th {
-			font-family: 'Gotham SSm A', 'Gotham SSm B', Verdana, sans-serif;
-			font-weight: 400;
-			font-style: normal;
-			text-transform: uppercase;
-			letter-spacing: .02em;
-			font-size: .9353rem;
-			padding: 1.2307em 1.0833em 1.0833em;
-			line-height: 1.333;
-			background-color: #eae9e6
-		}
-
-		table td, table th {
-			text-align: left
-		}
-
-		table td {
-			padding: .92307em 1em .7692em
-		}
-
-		table tbody tr:nth-of-type(even) {
-			background-color: #f9f8f5
-		}
-
-		table tbody th {
-			border-top: 1px solid #d5d5d2
-		}
-
-		table tbody td {
-			border-top: 1px solid #d5d5d2
-		}
-
-		table.wdn_responsive_table thead th abbr {
-			border-bottom: none
-		}
-
-		@media screen and (max-width:47.99em) {
-			table.wdn_responsive_table td, table.wdn_responsive_table th {
-				display: block
-			}
-
-			table.wdn_responsive_table thead tr {
-				display: none
-			}
-
-			table.wdn_responsive_table tbody tr:first-child th {
-				border-top-width: 0
-			}
-
-			table.wdn_responsive_table tbody tr:nth-of-type(even) {
-				background-color: transparent
-			}
-
-			table.wdn_responsive_table tbody td {
-				text-align: left
-			}
-
-			table.wdn_responsive_table tbody td:before {
-				display: block;
-				font-weight: 700;
-				content: attr(data-header)
-			}
-
-			table.wdn_responsive_table tbody td:empty {
-				display: none
-			}
-
-			table.wdn_responsive_table tbody td:nth-of-type(even) {
-				background-color: #f9f8f5
-			}
-		}
-
-		@media (min-width:48em) {
-			table caption {
-				font-size: 2.532rem
-			}
-
-			table th {
-				padding: 1.2307em 1.2307em 1em;
-				font-size: .802rem
-			}
-
-			table td {
-				padding: .75em 1em .602em
-			}
-		}
-
-		@media screen and (min-width:48em) {
-			table.wdn_responsive_table thead th:not(:first-child) {
-				text-align: center
-			}
-
-			table.wdn_responsive_table tbody td {
-				text-align: center
-			}
-
-			table.wdn_responsive_table.flush-left td, table.wdn_responsive_table.flush-left thead th {
-				text-align: left
-			}
-		}
-		</style>
-<?php }
-};
-
-add_action('wp_head', 'css_contacto');
-function css_contacto(){
-if(is_page('contacto')) {  ?>
-		<style>
-		* {
-		  box-sizing: border-box;
-		}
-
-		/* Style inputs */
-		input[type=text], select, textarea {
-		  width: 100%;
-		  padding: 12px;
-		  border: 1px solid #ccc;
-		  margin-top: 6px;
-		  margin-bottom: 16px;
-		  resize: vertical;
-		}
-						 
-		input[type=email], select, textarea {
-		  width: 100%;
-		  padding: 12px;
-		  border: 1px solid #ccc;
-		  margin-top: 6px;
-		  margin-bottom: 16px;
-		  resize: vertical;
-		}
-
-		input[type=submit] {
-		  background-color: #3A6541;
-		  color: white;
-		  padding: 12px 20px;
-		  border: none;
-		  cursor: pointer;
-		}
-
-		input[type=submit]:hover {
-		  background-color: #45a049;
-		}
-						 
-		.aviso {
-			color: grey;
-			margin-top: -28px;
-		}
-						 
-		</style>
-<?php }
-};
+add_action( 'wp_print_styles', 'tablepress_deregister_styles', 100 );
+function tablepress_deregister_styles() {
+    if ( ! is_page( 'lista-de-precios' ) ) {
+    }
+}
 
 add_action('wp_head', 'css_inicio');
 function css_inicio(){
@@ -640,8 +522,22 @@ function woocommerce_address_to_edit($address){
 }
 
 $preview = get_stylesheet_directory() . '/woocommerce/emails/woo-preview-emails.php';
-
 if(file_exists($preview)) {
     require $preview;
 }
+
+/*
+	add_action('wp_head', 'adsense_script2');
+	function adsense_script2(){
+	if (is_singular('post')) {  ?>
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script>
+		  (adsbygoogle = window.adsbygoogle || []).push({
+			google_ad_client: "ca-pub-4085127056158451",
+			enable_page_level_ads: true
+		  });
+		</script>
+	<?php  }
+	};
+*/
 ?>
