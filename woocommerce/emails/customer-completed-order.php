@@ -52,7 +52,7 @@ do_action( 'woocommerce_email_customer_details', $order, $sent_to_admin, $plain_
 ?>
 <p>
 Gracias por comprar en nuestro negocio. 
-Te invitamos a dejar una opinión pública en el siguiente <a href="http://search.google.com/local/writereview?placeid=ChIJ5ea6CJGptZURNyE6aBu98Eo">link</a>
+Te invitamos a dejar una opinión pública en el siguiente <a href="http://search.google.com/local/writereview?placeid=ChIJ5ea6CJGptZURNyE6aBu98Eo" _blank>link</a>
 </p>
 <?php
 
