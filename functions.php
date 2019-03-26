@@ -638,4 +638,10 @@ function woocommerce_address_to_edit($address){
         array_key_exists('billing_postcode', $address)?$address['billing_postcode']['custom_attributes'] = array('readonly'=>'readonly'):'';
         return $address;
 }
+
+$preview = get_stylesheet_directory() . '/woocommerce/emails/woo-preview-emails.php';
+
+if(file_exists($preview)) {
+    require $preview;
+}
 ?>
