@@ -521,6 +521,11 @@ function woocommerce_address_to_edit($address){
         return $address;
 }
 
+$preview = get_stylesheet_directory() . '/woocommerce/emails/woo-preview-emails.php';
+if(file_exists($preview)) {
+    require $preview;
+}
+
 /*
 	add_action('wp_head', 'adsense_script2');
 	function adsense_script2(){
@@ -535,5 +540,4 @@ function woocommerce_address_to_edit($address){
 	<?php  }
 	};
 */
-
 ?>
