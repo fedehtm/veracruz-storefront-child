@@ -540,4 +540,23 @@ if(file_exists($preview)) {
 	<?php  }
 	};
 */
+
+function vc_enqueue_facebook_sdk() {
+if (is_singular('post')) {
+	?>
+	<div id="fb-root"></div>
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v3.2&appId=2429886243720598&autoLogAppEvents=1"></script>
+	<?php
+   }
+};
+add_action( 'wp_head', 'vc_enqueue_facebook_sdk' );
+
+function fb_comments_code() {
+if (is_singular('post')) {
+	?>
+	<div class="fb-comments" data-href="<?php the_permalink(); ?> " data-width="100%"></div>
+	<?php
+   }
+};
+add_action( 'comment_form', 'fb_comments_code' );
 ?>
