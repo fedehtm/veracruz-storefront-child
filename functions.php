@@ -670,39 +670,22 @@ function woocommerce_address_to_edit($address){
         return $address;
 }
 
-add_action('wp_head', 'adsense_script2');
-function adsense_script2(){
-if (is_singular('post')) {  ?>
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<script>
-	  (adsbygoogle = window.adsbygoogle || []).push({
-		google_ad_client: "ca-pub-4085127056158451",
-		enable_page_level_ads: true
-	  });
-	</script>
-<?php  }
-};
-
-// insertar el SDK de Facebook en el header de todas los post del blog
-/*
+function vc_enqueue_facebook_sdk() {
+if (is_singular('post')) {
+	?>
 	<div id="fb-root"></div>
-	<script async defer src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v3.2&appId=2429886243720598&autoLogAppEvents=1"></script>
-*/
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v3.2&appId=2429886243720598&autoLogAppEvents=1"></script>
+	<?php
+   }
+};
+add_action( 'wp_head', 'vc_enqueue_facebook_sdk' );
 
-// insertar el div de comentarios con el hook "comment_form_top"
-/*
-	<div class="fb-comments" data-href="https://www.veracruzinsumos.com.ar/"></div>
-*/
-
-// eliminar form comentarios de wordpress con CSS
-/*
-	.comments-section-title {
-	display: none; 
-	} 
-
-	#comments-form {
-	display: none;  
-	}
-*/
-
+function fb_comments_code() {
+if (is_singular('post')) {
+	?>
+	<div class="fb-comments" data-href="<?php the_permalink(); ?> " data-width="100%"></div>
+	<?php
+   }
+};
+add_action( 'comment_form', 'fb_comments_code' );
 ?>
