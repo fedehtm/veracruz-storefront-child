@@ -368,9 +368,16 @@ add_filter( 'gettext', 'my_text_strings', 20, 3 );
 add_filter( 'tablepress_use_default_css', 'vc_tablepress_css_conditional_load' );
 add_filter( 'tablepress_custom_css_url', 'vc_tablepress_css_conditional_load' );
 function vc_tablepress_css_conditional_load( $load ) {
-	if ( ! is_page( 'lista-de-precios' ) ) {
+	if ( ! is_page( 
+				array(
+				'lista-de-precios',
+				'lista-microcerveceros',
+				) 
+			) 
+		) 
+		{
 		$load = false;
-	}
+		}
 	return $load;
 }
 
